@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halloumi.Abettor", "Halloumi.Abettor\Halloumi.Abettor.csproj", "{A880E0B5-3B92-4947-A6F8-7C84E172107D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halloumi.Abettor.Plugins.WallpaperChanger", "Halloumi.Abettor.Plugins.WallpaperChanger\Halloumi.Abettor.Plugins.WallpaperChanger.csproj", "{EE118107-387A-4C1C-A386-06403FD01492}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halloumi.Abettor.Plugins.FileSync", "Halloumi.Abettor.Plugins.FileSync\Halloumi.Abettor.Plugins.FileSync.csproj", "{5AAE5AE5-9280-4F7B-B287-BF33EC1BE887}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halloumi.Abettor.TestHarness", "Halloumi.Abettor.TestHarness\Halloumi.Abettor.TestHarness.csproj", "{CA1E1F92-84A2-4D6F-A2F7-8CC941987DC5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A880E0B5-3B92-4947-A6F8-7C84E172107D}.Debug|x86.ActiveCfg = Debug|x86
+		{A880E0B5-3B92-4947-A6F8-7C84E172107D}.Debug|x86.Build.0 = Debug|x86
+		{A880E0B5-3B92-4947-A6F8-7C84E172107D}.Release|x86.ActiveCfg = Release|x86
+		{A880E0B5-3B92-4947-A6F8-7C84E172107D}.Release|x86.Build.0 = Release|x86
+		{EE118107-387A-4C1C-A386-06403FD01492}.Debug|x86.ActiveCfg = Debug|x86
+		{EE118107-387A-4C1C-A386-06403FD01492}.Debug|x86.Build.0 = Debug|x86
+		{EE118107-387A-4C1C-A386-06403FD01492}.Release|x86.ActiveCfg = Release|x86
+		{EE118107-387A-4C1C-A386-06403FD01492}.Release|x86.Build.0 = Release|x86
+		{5AAE5AE5-9280-4F7B-B287-BF33EC1BE887}.Debug|x86.ActiveCfg = Debug|x86
+		{5AAE5AE5-9280-4F7B-B287-BF33EC1BE887}.Debug|x86.Build.0 = Debug|x86
+		{5AAE5AE5-9280-4F7B-B287-BF33EC1BE887}.Release|x86.ActiveCfg = Release|x86
+		{5AAE5AE5-9280-4F7B-B287-BF33EC1BE887}.Release|x86.Build.0 = Release|x86
+		{CA1E1F92-84A2-4D6F-A2F7-8CC941987DC5}.Debug|x86.ActiveCfg = Debug|x86
+		{CA1E1F92-84A2-4D6F-A2F7-8CC941987DC5}.Debug|x86.Build.0 = Debug|x86
+		{CA1E1F92-84A2-4D6F-A2F7-8CC941987DC5}.Release|x86.ActiveCfg = Release|x86
+		{CA1E1F92-84A2-4D6F-A2F7-8CC941987DC5}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
