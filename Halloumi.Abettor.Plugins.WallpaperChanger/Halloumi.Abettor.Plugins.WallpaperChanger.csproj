@@ -191,7 +191,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>COPY "$(TargetDir)\$(TargetName).*" "$(SolutionDir)$(SolutionName)\bin\$(ConfigurationName)"
+    <PostBuildEvent>COPY "$(TargetDir)\$(TargetName).*" "$(SolutionDir)$(SolutionName)\bin\x86\$(ConfigurationName)"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
