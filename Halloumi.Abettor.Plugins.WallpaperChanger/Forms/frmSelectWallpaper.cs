@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using System.IO;
-using Halloumi.Abettor.Controllers;
+using Halloumi.Common.Windows.Forms;
+using Manina.Windows.Forms;
 
 namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
 {
-    public partial class frmSelectWallpaper : Halloumi.Common.Windows.Forms.BaseForm
+    public partial class frmSelectWallpaper : BaseForm
     {
-        private WallpaperChanger _wallpaperChanger;
+        private readonly WallpaperChanger _wallpaperChanger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="frmSelectWallpaper"/> class.
@@ -22,7 +17,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
         public frmSelectWallpaper(WallpaperChanger wallpaperController)
         {
             InitializeComponent();
-            imageListView.SetRenderer(new Manina.Windows.Forms.ImageListViewRenderers.NoirRenderer());
+            imageListView.SetRenderer(new ImageListViewRenderers.NoirRenderer());
             _wallpaperChanger = wallpaperController;
             AddImagesToList();
         }
@@ -36,10 +31,10 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
             if (_wallpaperChanger.WallpaperFolder == "") return;
 
             // add images in folder to list
-            List<string> filenames = new List<string>();
-            foreach (string file in Directory.GetFiles(_wallpaperChanger.WallpaperFolder))
+            var filenames = new List<string>();
+            foreach (var file in Directory.GetFiles(_wallpaperChanger.WallpaperFolder))
             {
-                string extension = Path.GetExtension(file).ToLower();
+                var extension = Path.GetExtension(file).ToLower();
                 if (extension == ".jpg" || extension == ".png" || extension == ".bmp")
                 {
                     filenames.Add(file);
@@ -48,7 +43,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
             imageListView.Items.AddRange(filenames.ToArray());
 
             // select current wallpaper
-            foreach (Manina.Windows.Forms.ImageListViewItem item in imageListView.Items)
+            foreach (var item in imageListView.Items)
             {
                 if (item.FileName == _wallpaperChanger.CurrentWallpaperImage)
                 {
@@ -63,7 +58,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
         /// Handles the ItemDoubleClick event of the imageListView control.
         /// Sets the wallpaper to the current image
         /// </summary>
-        private void imageListView_ItemDoubleClick(object sender, Manina.Windows.Forms.ItemClickEventArgs e)
+        private void imageListView_ItemDoubleClick(object sender, ItemClickEventArgs e)
         {
             _wallpaperChanger.ChangeWallpaper(e.Item.FileName);
         }
@@ -74,9 +69,9 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
         /// </summary>
         private void imageListView_SelectionChanged(object sender, EventArgs e)
         {
-            for(int i = 0; i < this.imageListView.SelectedItems.Count - 1; i++)
+            for(var i = 0; i < imageListView.SelectedItems.Count - 1; i++)
             {
-                this.imageListView.SelectedItems[i].Selected = false; 
+                imageListView.SelectedItems[i].Selected = false; 
             }
         }
 
@@ -86,11 +81,11 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
         /// </summary>
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (this.imageListView.SelectedItems.Count > 0)
+            if (imageListView.SelectedItems.Count > 0)
             {
-                _wallpaperChanger.ChangeWallpaper(this.imageListView.SelectedItems[0].FileName);
+                _wallpaperChanger.ChangeWallpaper(imageListView.SelectedItems[0].FileName);
             }
-            this.Close();
+            Close();
         }
 
     }

@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Halloumi.Common.Windows.Helpers;
+using FlimFlan.IconEncoder;
+using Halloumi.Abettor.Helpers;
+using Halloumi.Abettor.Plugins;
+using Halloumi.Abettor.Properties;
 using Halloumi.Common.Helpers;
 using Halloumi.Common.Windows.Forms;
-using Halloumi.Abettor.Properties;
-using System.Diagnostics;
-using Halloumi.Abettor.Helpers;
-using FlimFlan.IconEncoder;
-using Halloumi.Abettor.Plugins;
 
 namespace Halloumi.Abettor.Forms
 {
@@ -22,7 +15,7 @@ namespace Halloumi.Abettor.Forms
     /// </summary>
     public partial class frmAbettor : BaseForm
     {
-        private List<IPlugin> _plugins = null;
+        private readonly List<IPlugin> _plugins;
 
         #region Constructors
 
@@ -33,18 +26,18 @@ namespace Halloumi.Abettor.Forms
         {
             InitializeComponent();
             
-            this.Hide();
+            Hide();
             LoadSettings();
             timer.Start();
 
             _plugins = PluginHelper<IPlugin>.LoadPlugins();
-            int count = 0;
+            var count = 0;
             foreach (var plugin in _plugins)
             {
                 var items = plugin.GetMenuItems();
                 while (items.Count > 0)
                 {
-                    this.contextMenu.Items.Insert(2 + count, items[0]);
+                    contextMenu.Items.Insert(2 + count, items[0]);
                     count++;
                 }
                 plugin.Start();
@@ -160,7 +153,7 @@ namespace Halloumi.Abettor.Forms
         /// </summary>
         private void mnuExit_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         /// <summary>
@@ -174,10 +167,10 @@ namespace Halloumi.Abettor.Forms
                 abettorController.UpdateValues();
 
                 // generate bitmap from monitor values
-                using (Bitmap bitmap = abettorController.GenerateBitmap())
+                using (var bitmap = abettorController.GenerateBitmap())
                 {
                     // get old icon
-                    Icon previousIcon = notifyIcon.Icon;
+                    var previousIcon = notifyIcon.Icon;
                     
                     // set new icon
                     notifyIcon.Icon = Converter.BitmapToIcon(bitmap);
@@ -192,7 +185,7 @@ namespace Halloumi.Abettor.Forms
             catch(Exception exception)
             {
                 ExceptionHelper.HandleException(exception);
-                this.Close();
+                Close();
             }
         }
 

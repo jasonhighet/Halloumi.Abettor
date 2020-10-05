@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Halloumi.Abettor.Plugins.WallpaperChanger.Forms;
 using Halloumi.Abettor.Plugins.WallpaperChanger.Properties;
 using Halloumi.Common.Windows.Helpers;
 
@@ -22,7 +18,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// <summary>
         /// Helper class for changing wallpaper
         /// </summary>
-        private WallpaperChanger _wallpaperChanger = null;
+        private WallpaperChanger _wallpaperChanger;
 
         #endregion
 
@@ -66,7 +62,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// <returns>The menu item for the plugin</returns>
         public ToolStripItemCollection GetMenuItems()
         {
-            return this.contextMenuStrip.Items;
+            return contextMenuStrip.Items;
         }
 
         /// <summary>
@@ -101,7 +97,10 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             {
                 _wallpaperChanger.WallpaperFolder = Settings.Default.WallpaperFolder;
                 _wallpaperChanger.ApplyMedianFilter = Settings.Default.ApplyMedianFilter;
+                _wallpaperChanger.CropWallpaper = Settings.Default.CropWallpaper;
+
                 mnuApplyMedianFilter.Checked = _wallpaperChanger.ApplyMedianFilter;
+                mnuCropWallpaper.Checked = _wallpaperChanger.CropWallpaper;
 
                 if (_wallpaperChanger.WallpaperFolder == "")
                 {
@@ -126,6 +125,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
                 Settings.Default.WallpaperFolder = _wallpaperChanger.WallpaperFolder;
                 Settings.Default.ApplyMedianFilter = _wallpaperChanger.ApplyMedianFilter;
                 Settings.Default.WallpaperChangeFrequency = GetWallpaperChangeFrequency();
+                Settings.Default.CropWallpaper = _wallpaperChanger.CropWallpaper;
                 Settings.Default.Save();
             }
             catch (Exception exception)
@@ -216,7 +216,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// </summary>
         private void SelectWallpaperFolder()
         {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            var dialog = new FolderBrowserDialog();
             dialog.SelectedPath = _wallpaperChanger.WallpaperFolder;
             dialog.Description = "Select Wallpaper Folder";
             if (dialog.ShowDialog() == DialogResult.OK)
@@ -259,7 +259,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             {
                 try
                 {
-                    Process process = new Process();
+                    var process = new Process();
                     process.StartInfo.Verb = "Edit";
                     process.StartInfo.FileName = wallpaper;
                     process.Start();
@@ -281,9 +281,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             {
                 try
                 {
-                    Process process = new Process();
-                    process.StartInfo.Verb = "Open";
-                    process.StartInfo.FileName = wallpaper;
+                    var process = new Process {StartInfo = {Verb = "Open", FileName = wallpaper}};
                     process.Start();
                 }
                 catch
@@ -410,7 +408,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// </summary>
         private void wallpaperTimer_Tick(object sender, EventArgs e)
         {
-            this.ChangeWallpaper();
+            ChangeWallpaper();
         }
 
         /// <summary>
@@ -470,6 +468,12 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
         {
             mnuChange.Enabled = !_wallpaperChanger.IsSettingWallpaper;
+        }
+
+        private void mnuCropWallpaper_Click(object sender, EventArgs e)
+        {
+            _wallpaperChanger.CropWallpaper = mnuCropWallpaper.Checked;
+            _wallpaperChanger.ResetCurrentWallpaper();
         }
     }
 }

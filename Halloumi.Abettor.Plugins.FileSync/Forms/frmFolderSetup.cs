@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Halloumi.Common.Windows.Forms;
-using Halloumi.Common.Helpers;
-using Halloumi.Abettor.Plugins.FileSync.Properties;
 using Halloumi.Abettor.Plugins.FileSync.Helpers;
+using Halloumi.Abettor.Plugins.FileSync.Properties;
+using Halloumi.Common.Helpers;
+using Halloumi.Common.Windows.Forms;
 
 namespace Halloumi.Abettor.Plugins.FileSync.Forms
 {
@@ -36,7 +31,7 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
             
             cmbFolderSet.Items.Clear();
             cmbFolderSet.Items.Add("New folder set...");
-            foreach (var folderSet in this.FolderSets)
+            foreach (var folderSet in FolderSets)
             {
                 cmbFolderSet.Items.Add(folderSet.Description);
             }
@@ -46,7 +41,7 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
             {
                 cmbFolderSet.SelectedIndex = oldIndex;
             }
-            else if (this.FolderSets.Count > 0) 
+            else if (FolderSets.Count > 0) 
             {
                 cmbFolderSet.SelectedIndex = 1;
             }
@@ -55,14 +50,14 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
 
             _bindingData = false;
         }
-        private bool _bindingData = false;
+        private bool _bindingData;
 
         /// <summary>
         /// Binds the current folder set.
         /// </summary>
         private void BindCurrentFolderSet()
         {
-            var folderSet = this.CurrentFolderSet;
+            var folderSet = CurrentFolderSet;
 
             if (folderSet == null)
             {
@@ -75,7 +70,7 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
                 txtSourceFolder.Text = folderSet.SourceFolder;
             }
 
-            btnDelete.Visible = (this.CurrentFolderSet != null);
+            btnDelete.Visible = (CurrentFolderSet != null);
         }
 
         /// <summary>
@@ -86,11 +81,11 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
             try
             {
                 var xml = Settings.Default.FolderSets;
-                this.FolderSets = SerializationHelper<List<FolderSet>>.FromXmlString(xml);
+                FolderSets = SerializationHelper<List<FolderSet>>.FromXmlString(xml);
             }
             catch 
             {
-                this.FolderSets = new List<FolderSet>();
+                FolderSets = new List<FolderSet>();
             }
         }
 
@@ -99,14 +94,14 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
         /// </summary>
         private void UpdateData()
         {
-            var folderSet = this.CurrentFolderSet;
+            var folderSet = CurrentFolderSet;
 
             if (folderSet == null)
             {
                 var newFolderSet = new FolderSet();
                 newFolderSet.DestinationFolder = txtDestinationFolder.Text;
                 newFolderSet.SourceFolder = txtSourceFolder.Text;
-                this.FolderSets.Add(newFolderSet);
+                FolderSets.Add(newFolderSet);
             }
             else
             {
@@ -123,7 +118,7 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
         {
             try
             {
-                var xml = SerializationHelper<List<FolderSet>>.ToXmlString(this.FolderSets);
+                var xml = SerializationHelper<List<FolderSet>>.ToXmlString(FolderSets);
                 Settings.Default.FolderSets = xml;
                 Settings.Default.Save();
             }
@@ -156,7 +151,7 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
         /// </summary>
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            this.FolderSets.Remove(this.CurrentFolderSet);
+            FolderSets.Remove(CurrentFolderSet);
             SaveFolderSets();
             BindData();
         }
@@ -182,7 +177,7 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
         {
             get 
             { 
-                return this.FolderSets
+                return FolderSets
                     .Where(fs => fs.Description == cmbFolderSet.Text)
                     .FirstOrDefault(); 
             }

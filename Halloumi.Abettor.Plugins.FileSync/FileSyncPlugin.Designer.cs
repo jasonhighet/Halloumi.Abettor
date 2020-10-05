@@ -1,11 +1,14 @@
-﻿namespace Halloumi.Abettor.Plugins.FileSync
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Halloumi.Abettor.Plugins.FileSync
 {
     partial class FileSyncPlugin
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -203,23 +206,23 @@
 
         #endregion
 
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem mnuFileSync;
-        private System.Windows.Forms.ToolStripSeparator mnuSep1;
-        private System.Windows.Forms.ToolStripMenuItem mnuFrequency;
-        private System.Windows.Forms.ToolStripMenuItem mnuNever;
-        private System.Windows.Forms.ToolStripMenuItem mnuOnStartup;
-        private System.Windows.Forms.ToolStripMenuItem mnuEvery5Minutes;
-        private System.Windows.Forms.ToolStripMenuItem mnuEvery4Hours;
-        private System.Windows.Forms.ToolStripMenuItem mnuEvery15Minutes;
-        private System.Windows.Forms.ToolStripMenuItem mnuEvery30Minutes;
-        private System.Windows.Forms.ToolStripMenuItem mnuEveryHour;
-        private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.ToolStripMenuItem mnuSyncNow;
-        private System.Windows.Forms.ToolStripSeparator sep3;
-        private System.Windows.Forms.ToolStripSeparator mnuSep2;
-        private System.Windows.Forms.ToolStripMenuItem mnuViewLog;
-        private System.Windows.Forms.ToolStripMenuItem mnuFolders;
-        private System.Windows.Forms.ToolStripMenuItem mnuEvery8Hours;
+        private ContextMenuStrip contextMenuStrip;
+        private ToolStripMenuItem mnuFileSync;
+        private ToolStripSeparator mnuSep1;
+        private ToolStripMenuItem mnuFrequency;
+        private ToolStripMenuItem mnuNever;
+        private ToolStripMenuItem mnuOnStartup;
+        private ToolStripMenuItem mnuEvery5Minutes;
+        private ToolStripMenuItem mnuEvery4Hours;
+        private ToolStripMenuItem mnuEvery15Minutes;
+        private ToolStripMenuItem mnuEvery30Minutes;
+        private ToolStripMenuItem mnuEveryHour;
+        private Timer timer;
+        private ToolStripMenuItem mnuSyncNow;
+        private ToolStripSeparator sep3;
+        private ToolStripSeparator mnuSep2;
+        private ToolStripMenuItem mnuViewLog;
+        private ToolStripMenuItem mnuFolders;
+        private ToolStripMenuItem mnuEvery8Hours;
     }
 }

@@ -1,11 +1,14 @@
-﻿namespace Halloumi.Abettor.Controllers
+﻿using System.ComponentModel;
+using System.Diagnostics;
+
+namespace Halloumi.Abettor.Controllers
 {
     partial class AbettorController
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -50,7 +53,7 @@
 
         #endregion
 
-        private System.Diagnostics.PerformanceCounter cpuCounter;
-        private System.Diagnostics.PerformanceCounter ramCounter;
+        private PerformanceCounter cpuCounter;
+        private PerformanceCounter ramCounter;
     }
 }

@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using Halloumi.Common.Helpers;
-using Halloumi.Common.Windows.Helpers;
-using Microsoft.Win32;
 
 namespace Halloumi.Abettor.Plugins.FileSync
 {
@@ -33,7 +29,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         /// <summary>
         /// Set to true when file syncing is occurring
         /// </summary>
-        private bool _syncingFiles = false;
+        private bool _syncingFiles;
 
         /// <summary>
         /// Delegate for syncing files asynchronously
@@ -43,12 +39,6 @@ namespace Halloumi.Abettor.Plugins.FileSync
         #endregion
 
         #region Contructors
-
-        /// <summary>
-        /// Initializes a new instance of the FileSync class.
-        /// </summary>
-        public FileSync()
-        { }
 
         #endregion
 
@@ -75,7 +65,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         {
             if (_syncingFiles) return;
 
-            var syncFiles = new SyncFilesDelegate(this.SyncFiles);
+            var syncFiles = new SyncFilesDelegate(SyncFiles);
             syncFiles.BeginInvoke(null, null);
         }
 
@@ -89,15 +79,15 @@ namespace Halloumi.Abettor.Plugins.FileSync
                 _syncingFiles = true;
 
                 // raise sync started event
-                if (this.SyncStarted != null) SyncStarted(this, EventArgs.Empty);
+                if (SyncStarted != null) SyncStarted(this, EventArgs.Empty);
 
                 // clear log
                 ClearLogFile();
-                this.Log = new StringBuilder();
+                Log = new StringBuilder();
 
-                if (this.FolderSets != null)
+                if (FolderSets != null)
                 {
-                    var folderSets = this.FolderSets.ToList();
+                    var folderSets = FolderSets.ToList();
                     foreach (var folderSet in folderSets)
                     {
                         SyncFolderSet(folderSet.SourceFolder, folderSet.DestinationFolder);
@@ -116,7 +106,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
                 SaveLog();
 
                 // raise completed event
-                if (this.SyncCompleted != null) SyncCompleted(this, EventArgs.Empty);
+                if (SyncCompleted != null) SyncCompleted(this, EventArgs.Empty);
             }
         }
 
@@ -129,9 +119,9 @@ namespace Halloumi.Abettor.Plugins.FileSync
             {
                 SaveLog();
             }
-            if (File.Exists(this.GetLogFilename()))
+            if (File.Exists(GetLogFilename()))
             {
-                Process.Start(this.GetLogFilename());
+                Process.Start(GetLogFilename());
             }
         }
 
@@ -140,9 +130,9 @@ namespace Halloumi.Abettor.Plugins.FileSync
         /// </summary>
         public void ClearLogFile()
         {
-            if (File.Exists(this.GetLogFilename()))
+            if (File.Exists(GetLogFilename()))
             {
-                File.Delete(this.GetLogFilename());
+                File.Delete(GetLogFilename());
             }
         }
 
@@ -160,7 +150,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
             try
             {
                 // clean folder names
-                string pathSeparator = @"\";
+                var pathSeparator = @"\";
                 if (!sourceFolder.EndsWith(pathSeparator)) sourceFolder += pathSeparator;
                 if (!destinationFolder.EndsWith(pathSeparator)) destinationFolder += pathSeparator;
 
@@ -209,7 +199,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         {
             try
             {
-                File.WriteAllText(this.GetLogFilename(), this.Log.ToString());
+                File.WriteAllText(GetLogFilename(), Log.ToString());
             }
             catch
             { }
@@ -307,10 +297,10 @@ namespace Halloumi.Abettor.Plugins.FileSync
             // loop through all files on the source.
             // if the file does not exist on the destination, copy it
             // if the file has a different timestamp or length to the destination, copy it
-            foreach (string sourceFile in GetFiles(sourceFolder))
+            foreach (var sourceFile in GetFiles(sourceFolder))
             {
-                string fileName = Path.GetFileName(sourceFile);
-                string destinationFile = Path.Combine(destinationFolder, fileName);
+                var fileName = Path.GetFileName(sourceFile);
+                var destinationFile = Path.Combine(destinationFolder, fileName);
 
                 Debug.WriteLine("\t" + fileName);
 
@@ -337,10 +327,10 @@ namespace Halloumi.Abettor.Plugins.FileSync
             }
 
             // delete files on the destination that do not exist on the source
-            foreach (string destinationFile in GetFiles(destinationFolder))
+            foreach (var destinationFile in GetFiles(destinationFolder))
             {
-                string fileName = Path.GetFileName(destinationFile);
-                string sourceFile = Path.Combine(sourceFolder, fileName);
+                var fileName = Path.GetFileName(destinationFile);
+                var sourceFile = Path.Combine(sourceFolder, fileName);
 
                 if (!File.Exists(sourceFile))
                 {
@@ -393,20 +383,20 @@ namespace Halloumi.Abettor.Plugins.FileSync
             }
 
             // loop through all files on the source and copy to destination
-            foreach (string sourceFile in GetFiles(sourceFolder))
+            foreach (var sourceFile in GetFiles(sourceFolder))
             {
                 if (IsFileToSkip(sourceFile)) continue;
 
-                string fileName = Path.GetFileName(sourceFile);
-                string destinationFile = Path.Combine(destinationFolder, fileName);
+                var fileName = Path.GetFileName(sourceFile);
+                var destinationFile = Path.Combine(destinationFolder, fileName);
                 CopyFile(sourceFile, destinationFile);
             }
 
             // loop through all subfolders on the source and copy to destination
-            foreach (string sourceSubFolder in GetSubfolders(sourceFolder))
+            foreach (var sourceSubFolder in GetSubfolders(sourceFolder))
             {
-                string subFolderName = GetFolderName(sourceSubFolder);
-                string destinationSubFolder = Path.Combine(destinationFolder, subFolderName);
+                var subFolderName = GetFolderName(sourceSubFolder);
+                var destinationSubFolder = Path.Combine(destinationFolder, subFolderName);
                 CopyFolder(sourceSubFolder, destinationSubFolder);
             }
         }
@@ -628,7 +618,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         {
             try
             {
-                this.Log.AppendLine(message);
+                Log.AppendLine(message);
                 Debug.WriteLine(message);
             }
             catch

@@ -18,17 +18,17 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// <summary>
         /// Random number generator
         /// </summary>
-        private Random _random = null;
+        private readonly Random _random;
 
         /// <summary>
         /// A list of recently displayed wallpapers
         /// </summary>
-        private List<string> _recentWallpapers = new List<string>();
+        private readonly List<string> _recentWallpapers = new List<string>();
 
         /// <summary>
         /// Set to true when the wallpaper is being set
         /// </summary>
-        private bool _settingWallpaper = false;
+        private bool _settingWallpaper;
 
         /// <summary>
         /// Delegate for setting the wallpaper asynchronusly
@@ -40,7 +40,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         #region Contructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WallpaperChangerController"/> class.
+        /// Initializes a new instance of the WallpaperChanger class.
         /// </summary>
         public WallpaperChanger()
         {
@@ -48,7 +48,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
 
             // clear log
             ClearLogFile();
-            this.Log = new StringBuilder();
+            Log = new StringBuilder();
         }
 
         #endregion
@@ -83,17 +83,23 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         }
 
         /// <summary>
+        /// If true, each image will be cropped to fit on screen
+        /// </summary>
+        public bool CropWallpaper
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets a value indicating whether wallpaper is currently being changed.
         /// </summary>
-        public bool IsSettingWallpaper
-        {
-            get { return _settingWallpaper; }
-        }
+        public bool IsSettingWallpaper => _settingWallpaper;
 
         /// <summary>
         /// Gets the log.
         /// </summary>
-        public StringBuilder Log { get; private set; }
+        public StringBuilder Log { get; }
 
         #endregion
 
@@ -104,13 +110,12 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// </summary>
         public void ChangeWallpaper()
         {
-            if (this.WallpaperFolder != "" && Directory.Exists(this.WallpaperFolder))
+            if (WallpaperFolder == "" || !Directory.Exists(WallpaperFolder)) return;
+
+            var newWallpaperImage = GetRandomImage();
+            if (newWallpaperImage != "")
             {
-                string newWallpaperImage = GetRandomImage();
-                if (newWallpaperImage != "")
-                {
-                    SetWallpaperAsync(newWallpaperImage);
-                }
+                SetWallpaperAsync(newWallpaperImage);
             }
         }
 
@@ -130,7 +135,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// </summary>
         public void ResetCurrentWallpaper()
         {
-            this.ChangeWallpaper(this.CurrentWallpaperImage);
+            ChangeWallpaper(CurrentWallpaperImage);
         }
 
         /// <summary>
@@ -138,9 +143,9 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// </summary>
         public void ClearLogFile()
         {
-            if (File.Exists(this.GetLogFilename()))
+            if (File.Exists(GetLogFilename()))
             {
-                File.Delete(this.GetLogFilename());
+                File.Delete(GetLogFilename());
             }
         }
 
@@ -154,29 +159,31 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// <returns>The path of a random image in the wallpaper folder</returns>
         private string GetRandomImage()
         {
-            //try
-            //{
-            // get all images in folder
-            var allImages = FileSystemHelper.SearchFiles(this.WallpaperFolder, "*.jpg;*.png;*.bmp", false);
-
-            // get images except ones already displayed
-            var images = allImages.Except(_recentWallpapers).ToList();
-
-            // if none left, clear already-displayed list
-            if (images.Count == 0)
+            try
             {
-                _recentWallpapers.Clear();
-                images = allImages;
-            }
+                // get all images in folder
+                var allImages = FileSystemHelper.SearchFiles(WallpaperFolder, "*.jpg;*.png;*.bmp", false);
 
-            // return a random image
-            if (images.Count > 0)
-            {
-                return images[_random.Next(0, images.Count - 1)];
+                // get images except ones already displayed
+                var images = allImages.Except(_recentWallpapers).ToList();
+
+                // if none left, clear already-displayed list
+                if (images.Count == 0)
+                {
+                    _recentWallpapers.Clear();
+                    images = allImages;
+                }
+
+                // return a random image
+                if (images.Count > 0)
+                {
+                    return images[_random.Next(0, images.Count - 1)];
+                }
             }
-            //}
-            //catch
-            //{ }
+            catch
+            {
+                // ignored
+            }
 
             return "";
         }
@@ -189,7 +196,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         {
             if (_settingWallpaper) return;
 
-            SetWallpaperDelegate setWallpaper = new SetWallpaperDelegate(this.SetWallpaper);
+            SetWallpaperDelegate setWallpaper = SetWallpaper;
             setWallpaper.BeginInvoke(imagePath, null, null);
         }
 
@@ -207,46 +214,82 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             try
             {
                 // get name cached
-                string cachedImageName = GetCachedImageName(imagePath);
+                var cachedImageName = GetCachedImageName(imagePath);
 
                 // generate cached image if one doesn't exist
                 if (!File.Exists(cachedImageName))
                 {
-                    Size desktopSize = DesktopHelper.GetPrimaryDesktopSize();
-                    using (Image image = Image.FromFile(imagePath))
-                    using (Image scaledImage = ImageHelper.ScaleAndCropImageToFit(image, desktopSize))
+                    var desktopSize = DesktopHelper.GetPrimaryDesktopSize();
+                    var image = Image.FromFile(imagePath);
+                    Image wallpaper;
+
+
+                    if (CropWallpaper)
                     {
-                        if (this.ApplyMedianFilter)
+                        wallpaper = ImageHelper.ScaleAndCropImageToFit(image, desktopSize);
+                    }
+                    else
+                    {
+                        var smallDesktopSize = new Size(desktopSize.Width / 4, desktopSize.Height / 4);
+                        var scaledBackgroundImage = ImageHelper.ScaleAndCropImageToFit(image, smallDesktopSize);
+                        var darkBackgroundImage = ImageHelper.DarkenImage(scaledBackgroundImage, 0.5);
+                        var blurredBackgroundImage = ImageHelper.BlurFilter(darkBackgroundImage, 10);
+
+                        wallpaper = ImageHelper.ScaleAndCropImageToFit(blurredBackgroundImage, desktopSize);
+
+                        var scaledImage = ImageHelper.ScaleImageToFit(image, desktopSize);
+
+                        using (var graphics = Graphics.FromImage(wallpaper))
                         {
-                            using (Image medianImage = ImageHelper.MedianFilter(scaledImage, 4))
-                            {
-                                medianImage.Save(cachedImageName, ImageFormat.Jpeg);
-                            }
+                            var x = (desktopSize.Width - scaledImage.Width) / 2;
+                            var y = (desktopSize.Height - scaledImage.Height) / 2;
+                            var imageLocation = new Point(x, y);
+                            graphics.DrawImage(scaledImage, imageLocation);
                         }
-                        else
+
+                        scaledImage.Dispose();
+                        scaledBackgroundImage.Dispose();
+                        blurredBackgroundImage.Dispose();
+                        darkBackgroundImage.Dispose();
+                    }
+
+                    if (ApplyMedianFilter)
+                    {
+                        using (var medianImage = ImageHelper.MedianFilter(wallpaper, 4))
                         {
-                            scaledImage.Save(cachedImageName, ImageFormat.Jpeg);
+                            medianImage.Save(cachedImageName, ImageFormat.Jpeg);
                         }
                     }
+                    else
+                    {
+                        wallpaper.Save(cachedImageName, ImageFormat.Jpeg);
+                    }
+
+
+                    wallpaper.Dispose();
+
+                    image.Dispose();
+
+                    
                 }
 
                 // get name for wallpaper bitmap in temp folder
-                string wallpaperPath = Path.Combine(Path.GetTempPath(), "Wallpaper.bmp");
+                var wallpaperPath = Path.Combine(Path.GetTempPath(), "Wallpaper.bmp");
 
                 // save cached image as wallpaper file and set as current wallpaper
-                using (Image image = Image.FromFile(cachedImageName))
+                using (var image = Image.FromFile(cachedImageName))
                 {
                     image.Save(wallpaperPath, ImageFormat.Bmp);
                 }
                 WallpaperHelper.SetWallpaper(wallpaperPath);
 
                 // set as recent wallpaper
-                this.CurrentWallpaperImage = imagePath;
+                CurrentWallpaperImage = imagePath;
                 AddToRecentWallpaperList(imagePath);
             }
             catch (Exception e)
             {
-                string message = String.Format("Error setting wallpaper'{0}'\r\n{1}", imagePath, e);
+                var message = $"Error setting wallpaper'{imagePath}'\r\n{e}";
                 AddLogEntry(message);
                 SaveLog();
             }
@@ -275,19 +318,24 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// <returns>The name of the associated cached image</returns>
         private string GetCachedImageName(string imagePath)
         {
-            Size desktopSize = DesktopHelper.GetPrimaryDesktopSize();
+            var desktopSize = DesktopHelper.GetPrimaryDesktopSize();
 
-            string imageName = Path.GetFileNameWithoutExtension(imagePath)
+            var imageName = Path.GetFileNameWithoutExtension(imagePath)
                 + "."
-                + desktopSize.Width.ToString()
+                + desktopSize.Width
                 + "x"
-                + desktopSize.Height.ToString()
+                + desktopSize.Height
                 + "."
                 + File.GetLastWriteTime(imagePath).ToString("yyyyMMddhhmmss");
 
-            if (this.ApplyMedianFilter)
+            if (ApplyMedianFilter)
             {
                 imageName += ".filtered";
+            }
+
+            if (CropWallpaper)
+            {
+                imageName += ".cropped";
             }
 
             imageName += ".jpg";
@@ -311,10 +359,12 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         {
             try
             {
-                File.WriteAllText(this.GetLogFilename(), this.Log.ToString());
+                File.WriteAllText(GetLogFilename(), Log.ToString());
             }
             catch
-            { }
+            {
+                // ignored
+            }
         }
 
         /// <summary>
@@ -325,11 +375,13 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         {
             try
             {
-                this.Log.AppendLine(message);
+                Log.AppendLine(message);
                 Debug.WriteLine(message);
             }
             catch
-            { }
+            {
+                // ignored
+            }
         }
 
         #endregion

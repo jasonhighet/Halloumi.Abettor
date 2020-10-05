@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using ComponentFactory.Krypton.Toolkit;
 
 namespace Halloumi.Abettor.Controllers
 {
@@ -56,10 +55,10 @@ namespace Halloumi.Abettor.Controllers
         {
             InitializeIconValues(ref _cpuIconValues);
             InitializeIconValues(ref _ramIconValues);
-            this.HighCPUColour = Color.White;
-            this.LowCPUColour = Color.MediumBlue;
-            this.BackColour = Color.Black;
-            this.RAMColour = Color.DarkGray;
+            HighCPUColour = Color.White;
+            LowCPUColour = Color.MediumBlue;
+            BackColour = Color.Black;
+            RAMColour = Color.DarkGray;
         }
 
         #endregion
@@ -125,9 +124,9 @@ namespace Halloumi.Abettor.Controllers
             get 
             {
                 return "CPU: "
-                    + this.CPUValue.ToString("0")
+                    + CPUValue.ToString("0")
                     + "%  RAM: "
-                    + this.RAMValue.ToString("0")
+                    + RAMValue.ToString("0")
                     + "%";
             }
         }
@@ -144,17 +143,17 @@ namespace Halloumi.Abettor.Controllers
             if (cpuCounter != null)
             {
                 // get current value from cpu counter
-                this.CPUValue = cpuCounter.NextValue();
+                CPUValue = cpuCounter.NextValue();
 
-                AddToIconValues(this.CPUValue, ref _cpuIconValues);
+                AddToIconValues(CPUValue, ref _cpuIconValues);
             }
 
             if (ramCounter != null)
             {
                 // get current value from ram counter
-                this.RAMValue = ramCounter.NextValue();
+                RAMValue = ramCounter.NextValue();
 
-                AddToIconValues(this.RAMValue, ref _ramIconValues);
+                AddToIconValues(RAMValue, ref _ramIconValues);
             }
         }
 
@@ -165,29 +164,29 @@ namespace Halloumi.Abettor.Controllers
         /// <returns>A bitmap drawing of the histogram</returns>
         public Bitmap GenerateBitmap()
         {
-            Bitmap bitmap = new Bitmap(_iconSize, _iconSize, PixelFormat.Format32bppRgb);
-            using (Graphics g = Graphics.FromImage(bitmap))
+            var bitmap = new Bitmap(_iconSize, _iconSize, PixelFormat.Format32bppRgb);
+            using (var g = Graphics.FromImage(bitmap))
             {
                 // fill background with cpu gradient
-                Rectangle rectangle = new Rectangle(0, 0, _iconSize, _iconSize);
+                var rectangle = new Rectangle(0, 0, _iconSize, _iconSize);
                 using (Brush brush = new LinearGradientBrush(rectangle,
-                    this.HighCPUColour,
-                    this.LowCPUColour,
+                    HighCPUColour,
+                    LowCPUColour,
                     LinearGradientMode.Vertical))
                 {
                     g.FillRectangle(brush, rectangle);
                 }
 
                 // draw each bar representing inverse cpu values in black
-                Brush backgroundBrush = new SolidBrush(this.BackColour);
-                for (int i = 0; i < _iconSize; i++)
+                Brush backgroundBrush = new SolidBrush(BackColour);
+                for (var i = 0; i < _iconSize; i++)
                 {
                     g.FillRectangle(backgroundBrush, i, 0, 1, _iconSize - _cpuIconValues[i]);
                 }
 
                 // draw the memory line
-                Pen ramPen = new Pen(this.RAMColour, 1);
-                for (int i = 1; i < _iconSize; i++)
+                var ramPen = new Pen(RAMColour, 1);
+                for (var i = 1; i < _iconSize; i++)
                 {
                     g.DrawLine(ramPen,
                         i,
@@ -219,7 +218,7 @@ namespace Halloumi.Abettor.Controllers
         {
             // clear historic values
             // set historic values to maximum size of 0 values
-            for (int i = 0; i < _iconSize; i++)
+            for (var i = 0; i < _iconSize; i++)
             {
                 iconValues[i] = 0;
             }
@@ -231,7 +230,7 @@ namespace Halloumi.Abettor.Controllers
         /// <param name="percentValue">The percent value.</param>
         private void AddToIconValues(float percentValue, ref int[] iconValues)
         { 
-            int value = (int)((percentValue / 100) * _iconSize);
+            var value = (int)((percentValue / 100) * _iconSize);
             if (value > _iconSize)
             {
                 value = _iconSize;
@@ -251,7 +250,7 @@ namespace Halloumi.Abettor.Controllers
         /// </summary>
         private void ShiftIconValuesLeft(ref int[] iconValues)
         {
-            for (int i = 0; i < _iconSize - 1; i++)
+            for (var i = 0; i < _iconSize - 1; i++)
             {
                 iconValues[i] = iconValues[i + 1];
             }    

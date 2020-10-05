@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Halloumi.Abettor.Plugins.FileSync.Forms;
 using Halloumi.Abettor.Plugins.FileSync.Helpers;
@@ -19,7 +16,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         /// <summary>
         /// Helper class for syncing files
         /// </summary>
-        private FileSync _fileSync = null;
+        private FileSync _fileSync;
 
         #endregion
 
@@ -51,8 +48,8 @@ namespace Halloumi.Abettor.Plugins.FileSync
         private void Initialize()
         {
             _fileSync = new FileSync();
-            _fileSync.SyncStarted += new EventHandler(FileSync_SyncStarted);
-            _fileSync.SyncCompleted += new EventHandler(FileSync_SyncCompleted);
+            _fileSync.SyncStarted += FileSync_SyncStarted;
+            _fileSync.SyncCompleted += FileSync_SyncCompleted;
         }
 
         #endregion
@@ -65,7 +62,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         /// <returns>The menu item for the plugin</returns>
         public ToolStripItemCollection GetMenuItems()
         {
-            return this.contextMenuStrip.Items;
+            return contextMenuStrip.Items;
         }
 
         /// <summary>
@@ -225,7 +222,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         {
             try
             {
-                this.contextMenuStrip.BeginInvoke((MethodInvoker)delegate()
+                contextMenuStrip.BeginInvoke((MethodInvoker)delegate
                 {
                     mnuSyncNow.Enabled = true;
                 });
@@ -245,7 +242,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         {
             try
             {
-                this.contextMenuStrip.BeginInvoke((MethodInvoker)delegate()
+                contextMenuStrip.BeginInvoke((MethodInvoker)delegate
                 {
                     mnuSyncNow.Enabled = false;
                 });
@@ -335,7 +332,7 @@ namespace Halloumi.Abettor.Plugins.FileSync
         /// </summary>
         private void timer_Tick(object sender, EventArgs e)
         {
-            this.SyncFiles();
+            SyncFiles();
         }
 
         /// <summary>

@@ -1,11 +1,15 @@
-﻿namespace Halloumi.Abettor.TestHarness
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using Button = Halloumi.Common.Windows.Controls.Button;
+
+namespace Halloumi.Abettor.TestHarness
 {
     partial class Form1
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -66,8 +70,8 @@
 
         #endregion
 
-        private System.Windows.Forms.ContextMenuStrip contextMenu;
-        private Halloumi.Common.Windows.Controls.Button button1;
+        private ContextMenuStrip contextMenu;
+        private Button button1;
     }
 }
 

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Halloumi.Common.Helpers;
 
 namespace Halloumi.Abettor.Plugins.FileSync.Helpers

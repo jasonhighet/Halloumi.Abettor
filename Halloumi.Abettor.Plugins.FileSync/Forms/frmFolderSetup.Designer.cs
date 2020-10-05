@@ -1,11 +1,20 @@
-﻿namespace Halloumi.Abettor.Plugins.FileSync.Forms
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using Halloumi.Common.Windows.Controls;
+using Button = Halloumi.Common.Windows.Controls.Button;
+using ComboBox = Halloumi.Common.Windows.Controls.ComboBox;
+using Label = Halloumi.Common.Windows.Controls.Label;
+using Panel = Halloumi.Common.Windows.Controls.Panel;
+using TextBox = Halloumi.Common.Windows.Controls.TextBox;
+
+namespace Halloumi.Abettor.Plugins.FileSync.Forms
 {
     partial class frmFolderSetup
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -281,22 +290,22 @@
 
         #endregion
 
-        private Halloumi.Common.Windows.Controls.BeveledLine beveledLine;
-        private System.Windows.Forms.FlowLayoutPanel flpButtons;
-        private Halloumi.Common.Windows.Controls.Button btnDelete;
-        private Halloumi.Common.Windows.Controls.Panel pnlButtons;
-        private Halloumi.Common.Windows.Controls.Button btnCancel;
-        private Halloumi.Common.Windows.Controls.Button btnUpdate;
-        private Halloumi.Common.Windows.Controls.Panel pnlMain;
-        private System.Windows.Forms.TableLayoutPanel tblMain;
-        private Halloumi.Common.Windows.Controls.ComboBox cmbFolderSet;
-        private Halloumi.Common.Windows.Controls.Label lblSource;
-        private Halloumi.Common.Windows.Controls.TextBox txtSourceFolder;
-        private Halloumi.Common.Windows.Controls.Label lblDestination;
-        private Halloumi.Common.Windows.Controls.FolderSelectButton btnSelectSource;
-        private Halloumi.Common.Windows.Controls.TextBox txtDestinationFolder;
-        private Halloumi.Common.Windows.Controls.FolderSelectButton btnSelectDestination;
-        private Halloumi.Common.Windows.Controls.Label lblFolderSet;
-        private System.Windows.Forms.ErrorProvider errorProvider;
+        private BeveledLine beveledLine;
+        private FlowLayoutPanel flpButtons;
+        private Button btnDelete;
+        private Panel pnlButtons;
+        private Button btnCancel;
+        private Button btnUpdate;
+        private Panel pnlMain;
+        private TableLayoutPanel tblMain;
+        private ComboBox cmbFolderSet;
+        private Label lblSource;
+        private TextBox txtSourceFolder;
+        private Label lblDestination;
+        private FolderSelectButton btnSelectSource;
+        private TextBox txtDestinationFolder;
+        private FolderSelectButton btnSelectDestination;
+        private Label lblFolderSet;
+        private ErrorProvider errorProvider;
     }
 }

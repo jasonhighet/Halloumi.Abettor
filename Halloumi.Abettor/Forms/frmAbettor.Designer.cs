@@ -1,11 +1,17 @@
-﻿namespace Halloumi.Abettor.Forms
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using ComponentFactory.Krypton.Toolkit;
+using Halloumi.Abettor.Controllers;
+using Halloumi.Common.Windows.Controls;
+
+namespace Halloumi.Abettor.Forms
 {
     partial class frmAbettor
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -207,25 +213,25 @@
 
         #endregion
 
-        private System.Windows.Forms.ContextMenuStrip contextMenu;
-        private System.Windows.Forms.NotifyIcon notifyIcon;
-        private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.ToolStripMenuItem mnuAbout;
-        private System.Windows.Forms.ToolStripSeparator mnuSep1;
-        private System.Windows.Forms.ToolStripMenuItem mnuOptions;
-        private System.Windows.Forms.ToolStripSeparator mnuSep2;
-        private System.Windows.Forms.ToolStripMenuItem mnuExit;
-        private System.Windows.Forms.ToolStripMenuItem mnuStartWithWindows;
-        private System.Windows.Forms.ToolStripSeparator mnuSep3;
-        private System.Windows.Forms.ToolStripMenuItem mnuHighCPUColour;
-        private System.Windows.Forms.ToolStripMenuItem mnuLowCPUColour;
-        private System.Windows.Forms.ToolStripMenuItem mnuBackColour;
-        private System.Windows.Forms.ColorDialog colourDialog;
-        private Halloumi.Abettor.Controllers.AbettorController abettorController;
-        private Halloumi.Common.Windows.Controls.AboutDialog aboutDialog;
-        private System.Windows.Forms.ToolStripMenuItem mnuRAMColour;
-        private System.Windows.Forms.ToolStripSeparator mnuSep4;
-        private ComponentFactory.Krypton.Toolkit.KryptonManager kryptonManager;
+        private ContextMenuStrip contextMenu;
+        private NotifyIcon notifyIcon;
+        private Timer timer;
+        private ToolStripMenuItem mnuAbout;
+        private ToolStripSeparator mnuSep1;
+        private ToolStripMenuItem mnuOptions;
+        private ToolStripSeparator mnuSep2;
+        private ToolStripMenuItem mnuExit;
+        private ToolStripMenuItem mnuStartWithWindows;
+        private ToolStripSeparator mnuSep3;
+        private ToolStripMenuItem mnuHighCPUColour;
+        private ToolStripMenuItem mnuLowCPUColour;
+        private ToolStripMenuItem mnuBackColour;
+        private ColorDialog colourDialog;
+        private AbettorController abettorController;
+        private AboutDialog aboutDialog;
+        private ToolStripMenuItem mnuRAMColour;
+        private ToolStripSeparator mnuSep4;
+        private KryptonManager kryptonManager;
     }
 }
 

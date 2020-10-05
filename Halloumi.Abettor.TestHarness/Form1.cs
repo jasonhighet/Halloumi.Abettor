@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using Halloumi.Abettor.Plugins.WallpaperChanger;
 
@@ -17,7 +11,7 @@ namespace Halloumi.Abettor.TestHarness
             InitializeComponent();
         }
 
-        private WallpaperChanger _changer = null;
+        private WallpaperChanger _changer;
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -43,9 +37,10 @@ namespace Halloumi.Abettor.TestHarness
             //fileSyncPlugin1.Start();
 
             _changer = new WallpaperChanger();
-            _changer.ApplyMedianFilter = true;
-            _changer.WallpaperFolder = @"E:\Photos\NewTravelDesktop\";
-            _changer.SetWallpaper(@"E:\Photos\NewTravelDesktop\DSC_0429.JPG");
+            _changer.ApplyMedianFilter = false;
+            _changer.WallpaperFolder = @"D:\Documents\Work Stuff\Fam\";
+            _changer.SetWallpaper(@"D:\Documents\Work Stuff\Fam\IMG-20150930-WA0004.png");
+            _changer.ChangeWallpaper();
 
             //var items = wallpaperChangerPlugin1.GetMenuItems();
             //int count = 0;

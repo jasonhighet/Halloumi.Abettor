@@ -1,11 +1,17 @@
-﻿namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+using ComponentFactory.Krypton.Toolkit;
+using Halloumi.Common.Windows.Controls;
+using Manina.Windows.Forms;
+
+namespace Halloumi.Abettor.Plugins.WallpaperChanger.Forms
 {
     partial class frmSelectWallpaper
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -144,12 +150,12 @@
 
         #endregion
 
-        private System.Windows.Forms.FlowLayoutPanel flpButtonsRight;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton btnCancel;
-        private ComponentFactory.Krypton.Toolkit.KryptonButton btnOK;
-        private Halloumi.Common.Windows.Controls.BeveledLine beveledLine1;
-        private Halloumi.Common.Windows.Controls.BeveledLine beveledLine2;
-        private System.Windows.Forms.TableLayoutPanel tblMain;
-        private Manina.Windows.Forms.ImageListView imageListView;
+        private FlowLayoutPanel flpButtonsRight;
+        private KryptonButton btnCancel;
+        private KryptonButton btnOK;
+        private BeveledLine beveledLine1;
+        private BeveledLine beveledLine2;
+        private TableLayoutPanel tblMain;
+        private ImageListView imageListView;
     }
 }

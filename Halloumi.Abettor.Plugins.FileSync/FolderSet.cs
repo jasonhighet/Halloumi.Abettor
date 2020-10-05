@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Halloumi.Common.Helpers;
+﻿using Halloumi.Common.Helpers;
 
 namespace Halloumi.Abettor.Plugins.FileSync
 {
@@ -10,8 +6,8 @@ namespace Halloumi.Abettor.Plugins.FileSync
     {
         public FolderSet()
         {
-            this.SourceFolder = "";
-            this.DestinationFolder = "";
+            SourceFolder = "";
+            DestinationFolder = "";
         }
 
         public string SourceFolder { get; set; }
@@ -20,10 +16,9 @@ namespace Halloumi.Abettor.Plugins.FileSync
         {
             get
             {
-                if (this.SourceFolder == "" && this.DestinationFolder == "") return "";
-                return string.Format("{0} -> {1}",
-                    FileSystemHelper.TruncateLongFilename(this.SourceFolder, 15),
-                    FileSystemHelper.TruncateLongFilename(this.DestinationFolder, 15));
+                if (SourceFolder == "" && DestinationFolder == "") return "";
+                return
+                    $"{FileSystemHelper.TruncateLongFilename(SourceFolder, 15)} -> {FileSystemHelper.TruncateLongFilename(DestinationFolder, 15)}";
             }
         }
     }

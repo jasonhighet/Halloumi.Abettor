@@ -8,14 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.CodeDom.Compiler;
+using System.Configuration;
+using System.Diagnostics;
+using System.Drawing;
+using System.Runtime.CompilerServices;
+
 namespace Halloumi.Abettor.Properties {
     
     
-    [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    [CompilerGenerated()]
+    [GeneratedCode("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    internal sealed partial class Settings : ApplicationSettingsBase {
         
-        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
+        private static Settings defaultInstance = ((Settings)(Synchronized(new Settings())));
         
         public static Settings Default {
             get {
@@ -23,48 +29,48 @@ namespace Halloumi.Abettor.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("PowderBlue")]
-        public global::System.Drawing.Color HighCPUColour {
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("PowderBlue")]
+        public Color HighCPUColour {
             get {
-                return ((global::System.Drawing.Color)(this["HighCPUColour"]));
+                return ((Color)(this["HighCPUColour"]));
             }
             set {
                 this["HighCPUColour"] = value;
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DarkBlue")]
-        public global::System.Drawing.Color LowCPUColour {
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("DarkBlue")]
+        public Color LowCPUColour {
             get {
-                return ((global::System.Drawing.Color)(this["LowCPUColour"]));
+                return ((Color)(this["LowCPUColour"]));
             }
             set {
                 this["LowCPUColour"] = value;
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("DimGray")]
-        public global::System.Drawing.Color RAMColour {
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("DimGray")]
+        public Color RAMColour {
             get {
-                return ((global::System.Drawing.Color)(this["RAMColour"]));
+                return ((Color)(this["RAMColour"]));
             }
             set {
                 this["RAMColour"] = value;
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color BackColour {
+        [UserScopedSetting()]
+        [DebuggerNonUserCode()]
+        [DefaultSettingValue("Black")]
+        public Color BackColour {
             get {
-                return ((global::System.Drawing.Color)(this["BackColour"]));
+                return ((Color)(this["BackColour"]));
             }
             set {
                 this["BackColour"] = value;
