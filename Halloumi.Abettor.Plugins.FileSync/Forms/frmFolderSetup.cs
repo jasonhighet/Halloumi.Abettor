@@ -81,7 +81,7 @@ namespace Halloumi.Abettor.Plugins.FileSync.Forms
             try
             {
                 var xml = Settings.Default.FolderSets;
-                FolderSets = SerializationHelper<List<FolderSet>>.FromXmlString(xml);
+                FolderSets = SerializationHelper<List<FolderSet>>.FromXmlString(xml) ?? new List<FolderSet>();
             }
             catch 
             {
