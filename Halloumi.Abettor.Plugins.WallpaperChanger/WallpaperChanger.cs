@@ -221,6 +221,8 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
                 {
                     var desktopSize = DesktopHelper.GetPrimaryDesktopSize();
                     var image = Image.FromFile(imagePath);
+                    ExifRotate(image);
+
                     Image wallpaper;
 
                     var cropWallpaper = CropWallpaper;
@@ -302,6 +304,32 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             {
                 _settingWallpaper = false;
             }
+        }
+
+        public static void ExifRotate(Image image)
+        {
+            const int exifOrientationID = 0x112;
+
+            if (!image.PropertyIdList.Contains(exifOrientationID))
+                return;
+
+            var property = image.GetPropertyItem(exifOrientationID);
+            int propertyValue = BitConverter.ToUInt16(property.Value, 0);
+
+            var rotate = RotateFlipType.RotateNoneFlipNone;
+
+            if (propertyValue == 3 || propertyValue == 4)
+                rotate = RotateFlipType.Rotate180FlipNone;
+            else if (propertyValue == 5 || propertyValue == 6)
+                rotate = RotateFlipType.Rotate90FlipNone;
+            else if (propertyValue == 7 || propertyValue == 8)
+                rotate = RotateFlipType.Rotate270FlipNone;
+
+            if (propertyValue == 2 || propertyValue == 4 || propertyValue == 5 || propertyValue == 7)
+                rotate |= RotateFlipType.RotateNoneFlipX;
+
+            if (rotate != RotateFlipType.RotateNoneFlipNone)
+                image.RotateFlip(rotate);
         }
 
         /// <summary>
