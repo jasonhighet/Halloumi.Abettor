@@ -223,8 +223,13 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
                     var image = Image.FromFile(imagePath);
                     Image wallpaper;
 
+                    var cropWallpaper = CropWallpaper;
+                    if (desktopSize.Width > desktopSize.Height && image.Width > image.Height)
+                        cropWallpaper = true;
+                    else if (desktopSize.Width < desktopSize.Height && image.Width < image.Height)
+                        cropWallpaper = true;
 
-                    if (CropWallpaper)
+                    if (cropWallpaper)
                     {
                         wallpaper = ImageHelper.ScaleAndCropImageToFit(image, desktopSize);
                     }
