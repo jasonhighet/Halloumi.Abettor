@@ -85,7 +85,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         /// <summary>
         /// If true, each image will be cropped to fit on screen
         /// </summary>
-        public bool CropWallpaper
+        public bool LandscapeOnly
         {
             get;
             set;
@@ -225,7 +225,17 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
 
                     Image wallpaper;
 
-                    var cropWallpaper = CropWallpaper;
+                    if (LandscapeOnly)
+                    {
+                        if (image.Width < image.Height)
+                        {
+                            _settingWallpaper = false;
+                            ChangeWallpaper();
+                            return;
+                        }
+                    }
+
+                    var cropWallpaper = false;
                     if (desktopSize.Width > desktopSize.Height && image.Width > image.Height)
                         cropWallpaper = true;
                     else if (desktopSize.Width < desktopSize.Height && image.Width < image.Height)
@@ -366,7 +376,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
                 imageName += ".filtered";
             }
 
-            if (CropWallpaper)
+            if (LandscapeOnly)
             {
                 imageName += ".cropped";
             }

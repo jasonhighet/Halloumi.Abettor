@@ -46,6 +46,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             this.mnuReloadCurrentWallpaper = new System.Windows.Forms.ToolStripMenuItem();
             this.sep4 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuApplyMedianFilter = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuLandscapeOnly = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFrequency = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuNever = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuOnStartup = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,7 +57,6 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             this.mnuEveryHour = new System.Windows.Forms.ToolStripMenuItem();
             this.sep3 = new System.Windows.Forms.ToolStripSeparator();
             this.wallpaperTimer = new System.Windows.Forms.Timer(this.components);
-            this.mnuCropWallpaper = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             // 
             // contextMenuStrip
@@ -91,7 +91,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             this.mnuReloadCurrentWallpaper,
             this.sep4,
             this.mnuApplyMedianFilter,
-            this.mnuCropWallpaper,
+            this.mnuLandscapeOnly,
             this.mnuFrequency});
             this.mnuWallpaper.Name = "mnuWallpaper";
             this.mnuWallpaper.Size = new System.Drawing.Size(236, 24);
@@ -169,6 +169,14 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             this.mnuApplyMedianFilter.Text = "&Apply Median Filter";
             this.mnuApplyMedianFilter.Click += new System.EventHandler(this.mnuApplyMedianFilter_Click);
             // 
+            // mnuLandscapeOnly
+            // 
+            this.mnuLandscapeOnly.CheckOnClick = true;
+            this.mnuLandscapeOnly.Name = "mnuLandscapeOnly";
+            this.mnuLandscapeOnly.Size = new System.Drawing.Size(263, 26);
+            this.mnuLandscapeOnly.Text = "&Landscape Only";
+            this.mnuLandscapeOnly.Click += new System.EventHandler(this.mnuLandscapeOnly_Click);
+            // 
             // mnuFrequency
             // 
             this.mnuFrequency.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -187,7 +195,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             // 
             this.mnuNever.CheckOnClick = true;
             this.mnuNever.Name = "mnuNever";
-            this.mnuNever.Size = new System.Drawing.Size(224, 26);
+            this.mnuNever.Size = new System.Drawing.Size(203, 26);
             this.mnuNever.Tag = "-1";
             this.mnuNever.Text = "&Never";
             this.mnuNever.Click += new System.EventHandler(this.mnuNever_Click);
@@ -196,7 +204,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             // 
             this.mnuOnStartup.CheckOnClick = true;
             this.mnuOnStartup.Name = "mnuOnStartup";
-            this.mnuOnStartup.Size = new System.Drawing.Size(224, 26);
+            this.mnuOnStartup.Size = new System.Drawing.Size(203, 26);
             this.mnuOnStartup.Tag = "0";
             this.mnuOnStartup.Text = "On &Startup";
             this.mnuOnStartup.Click += new System.EventHandler(this.mnuOnStartup_Click);
@@ -207,7 +215,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             this.mnuEvery5Minutes.CheckOnClick = true;
             this.mnuEvery5Minutes.CheckState = System.Windows.Forms.CheckState.Checked;
             this.mnuEvery5Minutes.Name = "mnuEvery5Minutes";
-            this.mnuEvery5Minutes.Size = new System.Drawing.Size(224, 26);
+            this.mnuEvery5Minutes.Size = new System.Drawing.Size(203, 26);
             this.mnuEvery5Minutes.Tag = "5";
             this.mnuEvery5Minutes.Text = "Every &5 Minutes";
             this.mnuEvery5Minutes.Click += new System.EventHandler(this.mnuEvery5Minutes_Click);
@@ -216,7 +224,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             // 
             this.mnuEvery10Minutes.CheckOnClick = true;
             this.mnuEvery10Minutes.Name = "mnuEvery10Minutes";
-            this.mnuEvery10Minutes.Size = new System.Drawing.Size(224, 26);
+            this.mnuEvery10Minutes.Size = new System.Drawing.Size(203, 26);
             this.mnuEvery10Minutes.Tag = "10";
             this.mnuEvery10Minutes.Text = "Every &10 Minutes";
             this.mnuEvery10Minutes.Click += new System.EventHandler(this.mnuEvery10Minutes_Click);
@@ -225,7 +233,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             // 
             this.mnuEvery15Minutes.CheckOnClick = true;
             this.mnuEvery15Minutes.Name = "mnuEvery15Minutes";
-            this.mnuEvery15Minutes.Size = new System.Drawing.Size(224, 26);
+            this.mnuEvery15Minutes.Size = new System.Drawing.Size(203, 26);
             this.mnuEvery15Minutes.Tag = "15";
             this.mnuEvery15Minutes.Text = "Every &15 Minutes";
             this.mnuEvery15Minutes.Click += new System.EventHandler(this.mnuEvery15Minutes_Click);
@@ -234,7 +242,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             // 
             this.mnuEvery30Minutes.CheckOnClick = true;
             this.mnuEvery30Minutes.Name = "mnuEvery30Minutes";
-            this.mnuEvery30Minutes.Size = new System.Drawing.Size(224, 26);
+            this.mnuEvery30Minutes.Size = new System.Drawing.Size(203, 26);
             this.mnuEvery30Minutes.Tag = "30";
             this.mnuEvery30Minutes.Text = "Every &30 Minutes";
             this.mnuEvery30Minutes.Click += new System.EventHandler(this.mnuEvery30Minutes_Click);
@@ -243,7 +251,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             // 
             this.mnuEveryHour.CheckOnClick = true;
             this.mnuEveryHour.Name = "mnuEveryHour";
-            this.mnuEveryHour.Size = new System.Drawing.Size(224, 26);
+            this.mnuEveryHour.Size = new System.Drawing.Size(203, 26);
             this.mnuEveryHour.Tag = "60";
             this.mnuEveryHour.Text = "Every &Hour";
             this.mnuEveryHour.Click += new System.EventHandler(this.mnuEveryHour_Click);
@@ -256,14 +264,6 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             // wallpaperTimer
             // 
             this.wallpaperTimer.Tick += new System.EventHandler(this.wallpaperTimer_Tick);
-            // 
-            // mnuCropWallpaper
-            // 
-            this.mnuCropWallpaper.CheckOnClick = true;
-            this.mnuCropWallpaper.Name = "mnuCropWallpaper";
-            this.mnuCropWallpaper.Size = new System.Drawing.Size(263, 26);
-            this.mnuCropWallpaper.Text = "&Crop Wallpaper";
-            this.mnuCropWallpaper.Click += new System.EventHandler(this.mnuCropWallpaper_Click);
             this.contextMenuStrip.ResumeLayout(false);
 
         }
@@ -294,6 +294,6 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
         private ToolStripSeparator sep4;
         private ToolStripMenuItem mnuOpenCurrentWallpaper;
         private ToolStripMenuItem mnuReloadCurrentWallpaper;
-        private ToolStripMenuItem mnuCropWallpaper;
+        private ToolStripMenuItem mnuLandscapeOnly;
     }
 }

@@ -97,10 +97,10 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             {
                 _wallpaperChanger.WallpaperFolder = Settings.Default.WallpaperFolder;
                 _wallpaperChanger.ApplyMedianFilter = Settings.Default.ApplyMedianFilter;
-                _wallpaperChanger.CropWallpaper = Settings.Default.CropWallpaper;
+                _wallpaperChanger.LandscapeOnly = Settings.Default.LandscapeOnly;
 
                 mnuApplyMedianFilter.Checked = _wallpaperChanger.ApplyMedianFilter;
-                mnuCropWallpaper.Checked = _wallpaperChanger.CropWallpaper;
+                mnuLandscapeOnly.Checked = _wallpaperChanger.LandscapeOnly;
 
                 if (_wallpaperChanger.WallpaperFolder == "")
                 {
@@ -125,7 +125,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
                 Settings.Default.WallpaperFolder = _wallpaperChanger.WallpaperFolder;
                 Settings.Default.ApplyMedianFilter = _wallpaperChanger.ApplyMedianFilter;
                 Settings.Default.WallpaperChangeFrequency = GetWallpaperChangeFrequency();
-                Settings.Default.CropWallpaper = _wallpaperChanger.CropWallpaper;
+                Settings.Default.LandscapeOnly = _wallpaperChanger.LandscapeOnly;
                 Settings.Default.Save();
             }
             catch (Exception exception)
@@ -470,9 +470,9 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
             mnuChange.Enabled = !_wallpaperChanger.IsSettingWallpaper;
         }
 
-        private void mnuCropWallpaper_Click(object sender, EventArgs e)
+        private void mnuLandscapeOnly_Click(object sender, EventArgs e)
         {
-            _wallpaperChanger.CropWallpaper = mnuCropWallpaper.Checked;
+            _wallpaperChanger.LandscapeOnly = mnuLandscapeOnly.Checked;
             _wallpaperChanger.ResetCurrentWallpaper();
         }
     }

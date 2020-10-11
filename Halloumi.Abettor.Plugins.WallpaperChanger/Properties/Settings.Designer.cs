@@ -67,12 +67,12 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger.Properties {
         [UserScopedSetting()]
         [DebuggerNonUserCode()]
         [DefaultSettingValue("False")]
-        public bool CropWallpaper {
+        public bool LandscapeOnly {
             get {
-                return ((bool)(this["CropWallpaper"]));
+                return ((bool)(this["LandscapeOnly"]));
             }
             set {
-                this["CropWallpaper"] = value;
+                this["LandscapeOnly"] = value;
             }
         }
     }
