@@ -37,9 +37,9 @@ namespace Halloumi.Abettor.TestHarness
             //fileSyncPlugin1.Start();
 
             _changer = new WallpaperChanger();
-            _changer.ApplyMedianFilter = false;
-            _changer.WallpaperFolder = @"D:\Documents\Work Stuff\Fam\";
-            _changer.SetWallpaper(@"D:\Documents\Work Stuff\Fam\IMG-20150930-WA0004.png");
+            _changer.ApplyMedianFilter = true;
+            _changer.LandscapeOnly = true;
+            _changer.WallpaperFolder = @"E:\OneDrive\Pictures\Family\";
             _changer.ChangeWallpaper();
 
             //var items = wallpaperChangerPlugin1.GetMenuItems();

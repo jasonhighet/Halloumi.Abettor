@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -143,7 +144,9 @@ namespace Halloumi.Abettor.Controllers
             if (cpuCounter != null)
             {
                 // get current value from cpu counter
-                CPUValue = cpuCounter.NextValue();
+                //CPUValue = cpuCounter.NextValue();
+                //CPUValue = cpuCounter.NextValue() / Environment.ProcessorCount;
+                CPUValue = GetAverageCPU();
 
                 AddToIconValues(CPUValue, ref _cpuIconValues);
             }
@@ -155,6 +158,18 @@ namespace Halloumi.Abettor.Controllers
 
                 AddToIconValues(RAMValue, ref _ramIconValues);
             }
+        }
+
+        private float GetAverageCPU()
+        {
+            float processorUtilization = 0;
+            var count = 10;
+            for (int i = 0; i < count; i++)
+            {
+                processorUtilization += cpuCounter.NextValue();
+            }
+                           
+            return processorUtilization / count;
         }
 
         /// <summary>

@@ -373,12 +373,7 @@ namespace Halloumi.Abettor.Plugins.WallpaperChanger
 
             if (ApplyMedianFilter)
             {
-                imageName += ".filtered";
-            }
-
-            if (LandscapeOnly)
-            {
-                imageName += ".cropped";
+                imageName += ".median";
             }
 
             imageName += ".jpg";
